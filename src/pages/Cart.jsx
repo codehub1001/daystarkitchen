@@ -12,7 +12,7 @@ const Cart = () => {
   const [customer, setCustomer] = useState({ name: "", phone: "" });
   const [loading, setLoading] = useState(false);
 
-  // Automatically send WhatsApp order after payment
+  // Send WhatsApp order (mobile-friendly)
   const sendWhatsAppOrder = () => {
     if (cart.length === 0) return;
 
@@ -24,35 +24,32 @@ const Cart = () => {
       message
     )}%0AName: ${customer.name}%0APhone: ${customer.phone}%0ATotal: ₦${totalPrice}`;
 
-    // Open WhatsApp automatically
-    window.open(url, "_blank");
+    // Mobile-friendly redirect
+    window.location.href = url;
 
-    // Clear cart after sending
     clearCart();
   };
 
   // Paystack configuration
   const paystackConfig = {
     reference: new Date().getTime().toString(),
-    email: "customer@example.com", // required by Paystack but you don’t use it
-    amount: totalPrice * 100, // amount in kobo
-    publicKey: "pk_test_9ea3b0b804c01facb41b4a04fdfb5ee51ce6071f", // test key
+    email: "customer@example.com", // required by Paystack but optional for you
+    amount: totalPrice * 100, // kobo
+    publicKey: "pk_test_9ea3b0b804c01facb41b4a04fdfb5ee51ce6071f",
     text: "Pay & Order",
   };
 
-  // Triggered when payment succeeds
+  // Payment success handler
   const onSuccess = () => {
     setLoading(false);
-    sendWhatsAppOrder(); // automatic message
+    sendWhatsAppOrder(); // open WhatsApp immediately
   };
 
-  // Triggered if payment popup is closed without success
   const onClose = () => {
     setLoading(false);
     alert("Payment not completed. Try again.");
   };
 
-  // Update customer info
   const handleInputChange = (e) => {
     setCustomer({ ...customer, [e.target.name]: e.target.value });
   };
