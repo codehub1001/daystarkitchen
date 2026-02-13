@@ -7,7 +7,8 @@ import Footer from "./components/Footer";
 import Banner from "./components/Banner";
 import Menu from "./pages/Menu";
 import Cart from "./pages/Cart";
-import LoaderWrapper from "./components/LoaderWrapper"; // new component
+import LoaderWrapper from "./components/LoaderWrapper"; // Loader for page transitions
+import FloatingCart from "./components/FloatingCart"; // Universal floating cart
 
 const Home = () => <Banner />;
 
@@ -17,6 +18,10 @@ const App = () => {
       <Router>
         <LoaderWrapper>
           <Header />
+
+          {/* Floating cart is always visible */}
+          <FloatingCart />
+
           <main className="flex-1">
             <Routes>
               <Route path="/" element={<Home />} />
@@ -24,6 +29,7 @@ const App = () => {
               <Route path="/cart" element={<Cart />} />
             </Routes>
           </main>
+
           <Footer />
         </LoaderWrapper>
       </Router>

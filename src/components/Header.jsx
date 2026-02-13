@@ -1,17 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FiShoppingCart } from "react-icons/fi";
 import { GiMeal } from "react-icons/gi"; // Food tray icon
 import logo from "../assets/daystar.png";
 import { motion } from "framer-motion";
+import { CartContext } from "./CartContext"; // import cart context
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { totalItems } = useContext(CartContext); // get total items
 
   const navLinks = [
     { name: "Menu", path: "/menu", icon: <GiMeal size={22} /> },
-    { name: "Cart", path: "/cart", icon: <FiShoppingCart size={22} /> },
+    {
+      name: "Cart",
+      path: "/cart",
+      icon: (
+        <div className="relative">
+          <FiShoppingCart size={22} />
+          {totalItems > 0 && (
+            <span className="absolute -top-2 -right-2 bg-[#C0392B] text-white text-xs w-5 h-5 flex items-center justify-center rounded-full font-semibold">
+              {totalItems}
+            </span>
+          )}
+        </div>
+      ),
+    },
   ];
 
   return (
